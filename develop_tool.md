@@ -1,0 +1,47 @@
+# 開発ツール
+
+
+## VSCode
+```
+brew install visual-studio-code
+```
+
+## warp(ターミナル)
+```
+brew install warp
+```
+
+## git
+```
+brew install git
+```
+
+## ghq(gitリポジトリ管理ツール)
+```
+brew install ghq
+```
+
+## fork(gitクライアント)
+```
+brew install fork
+```
+
+## git-delta
+```
+brew install git-delta
+```
+
+## misemi(ランタイムマネージャ)
+```
+brew install mise
+```
+
+## docker
+```
+brew install --cask docker
+```
+
+## dbeaver(DBクライアント)
+```
+brew install dbeaver-community
+```
