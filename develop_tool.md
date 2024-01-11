@@ -31,6 +31,11 @@ brew install fork
 brew install git-delta
 ```
 
+## gh
+```
+brew install gh
+```
+
 ## misemi(ランタイムマネージャ)
 ```
 brew install mise
