@@ -11,3 +11,6 @@ alias gf='cd $(find ~/src/github.com -depth 2 | fzf)'
 
 # code by fzf
 alias codef='code $(find ~/src/github.com -depth 2 | fzf)'
+
+# fzfセッティング
+export FZF_DEFAULT_OPTS='--layout=reverse --inline-info'
