@@ -9,3 +9,6 @@
 
 ## スクリプト
 - [開発用スクリプト](develop_script.md)
+
+# その他
+- [Chrome拡張機能](chrome.md)
