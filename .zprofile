@@ -14,3 +14,6 @@ alias codef='(){code $(find ~/ghq/github.com -depth 2 -type d | sort | fzf -1 --
 
 # fzfセッティング
 export FZF_DEFAULT_OPTS='--layout=reverse --inline-info'
+
+# yabaiのリスタート
+alias yabair='yabai --restart-service'
