@@ -50,3 +50,9 @@ brew install --cask docker
 ```
 brew install dbeaver-community
 ```
+
+## jq, jnv
+```
+brew install jq
+brew install ynqa/tap/jnv
+```
