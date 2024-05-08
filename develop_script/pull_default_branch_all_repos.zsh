@@ -12,8 +12,14 @@ function pull_default_branch_all_repos() {
       continue
     fi
 
-    # 現在の変更内容はスタッシュ
-    git stash -u
+    # ローカルの変更がある場合はスタッシュする
+    git diff --exit-code > /dev/null
+    if [ $? -eq 1 ]; then
+      stash_message="$(date '+%Y-%m-%d') on $(git symbolic-ref --short HEAD)"
+      git stash -u -m "$stash_message"
+    else
+      echo "skip: no local changes"
+    fi
 
     # デフォルトブランチを取得
     git fetch
