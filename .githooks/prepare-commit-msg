@@ -31,7 +31,7 @@ const { execSync } = require('child_process');
 
   // fetch new commit message from OpenAI API
   const messages = [
-    { role: 'system', content: 'You are an excellent system engineer. Please return the optimal commit message based on the git diff and the already set commit message. The output should only be the commit message.' },
+    { role: 'system', content: 'You are an excellent system engineer. Please return the optimal commit message based on the git diff and the already set commit message. The output should only be the commit message.Do not use code blocks.' },
     {
       role: 'user', content: `
   # Git Diff
