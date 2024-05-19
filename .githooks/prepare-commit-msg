@@ -1,0 +1,82 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+(async function () {
+
+  // init OpenAI API 
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+  if (!OPENAI_API_KEY) {
+    console.error('no OPENAI_API_KEY found in environment variables. Please set it before running the script.');
+    return;
+  }
+  const MODEL = "gpt-4o"
+  const API_URL = "https://api.openai.com/v1/chat/completions"
+
+  // get commit message
+  const commitMsgFileName = process.argv[2];
+  const commitMsgFilePath = path.resolve(process.cwd(), commitMsgFileName);
+  const commitMsg = fs.readFileSync(commitMsgFilePath, 'utf8');
+  const isRecommend = commitMsg.includes('recommend');
+  if (!isRecommend) {
+    console.error('Please set the commit message to "recommend" to get the optimal commit message.');
+    return;
+  }
+  const existingCommitMsg = commitMsg.split('recommend')[1].trim();
+
+  // get git diff
+  const gitDiffString = execSync('git diff --cached -U10').toString();
+
+  // fetch new commit message from OpenAI API
+  const messages = [
+    { role: 'system', content: 'You are an excellent system engineer. Please return the optimal commit message based on the git diff and the already set commit message. The output should only be the commit message.' },
+    {
+      role: 'user', content: `
+  # Git Diff
+  \`\`\`
+  ${gitDiffString}
+  \`\`\`
+  # Current Commit Message
+  \`\`\`
+  ${existingCommitMsg}
+  \`\`\`
+  # Message Format
+  \`{Prefix}: {Detail}\`
+  # Prefixex
+  1. feat: Adding a new feature
+  - Example: feat: add user authentication
+  2. fix: Bug fix
+  - Example: fix: resolve login issue
+  3. docs: Documentation changes
+  - Example: docs: update README with new instructions
+  4. style: Code style changes (changes that do not affect functionality, such as spaces, formatting, adding semicolons, etc.)
+  - Example: style: format code according to linter rules
+  5. refactor: Refactoring (code changes that do not include bug fixes or feature additions)
+  - Example: refactor: optimize database queries
+  6. test: Adding or modifying tests
+  - Example: test: add unit tests for user service
+  7. chore: Changes to the build process or auxiliary tools (updating libraries, changing configuration files, etc.)
+  - Example: chore: update dependencies
+  8. perf: Performance improvements
+  - Example: perf: improve image loading time
+  ` }
+  ]
+
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      messages: messages
+    })
+  });
+  const data = await response.json();
+
+  // write new commit message to file
+  fs.writeFileSync(commitMsgFilePath, data.choices[0].message.content);
+})();
