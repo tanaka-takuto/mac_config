@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+
+// Define the regex pattern for the commit message format
+const prefixes = ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'perf'];
+const commitMsgRegex = new RegExp(`^((${prefixes.join('|')}): .{1,50})|(wk)$`);
+
+// Read the commit message from the file
+const commitMsg = fs.readFileSync(process.argv[2], 'utf8').trim();
+
+// Check if the commit message matches the regex pattern
+if (!commitMsgRegex.test(commitMsg)) {
+  console.log(`Invalid commit message format. commit message: ${commitMsg}`);
+  console.log("Please use the following format: <type>: <message>");
+  console.log(`type: ${prefixes.join(', ')}`);
+  process.exit(1);
+}
