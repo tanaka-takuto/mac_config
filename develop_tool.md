@@ -36,7 +36,7 @@ brew install git-delta
 brew install gh
 ```
 
-## misemi(ランタイムマネージャ)
+## mise(ランタイムマネージャ)
 ```
 brew install mise
 ```
