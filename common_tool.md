@@ -27,3 +27,8 @@ brew install peco
 ```
 brew install fzf
 ```
+
+## Bitwarden
+```
+brew install bitwarden-cli
+```
