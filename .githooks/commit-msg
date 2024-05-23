@@ -4,7 +4,7 @@ const fs = require('fs');
 
 // Define the regex pattern for the commit message format
 const prefixes = ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'perf'];
-const commitMsgRegex = new RegExp(`^((${prefixes.join('|')}): .{1,50})|(wk)$`);
+const commitMsgRegex = new RegExp(`^((${prefixes.join('|')}): .{1,50})|(Merge branch .+)|(wk)$`);
 
 // Read the commit message from the file
 const commitMsg = fs.readFileSync(process.argv[2], 'utf8').trim();
