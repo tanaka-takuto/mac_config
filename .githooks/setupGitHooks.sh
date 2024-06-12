@@ -24,6 +24,10 @@ fi
 
 # Copy the git hook scripts to the target path
 for GitHookScript in $GitHookScripts; do
-    cp "$DirPath/$GitHookScript" "$TargetPath/.git/hooks"
-    echo "Copied $GitHookScript to $TargetPath/.git/hooks"
+    echo "cp \"$DirPath/$GitHookScript\" \"$TargetPath/.git/hooks\""
 done
+
+# Set Commit Message template
+_filename=${0}
+_dirname=$(dirname ${_filename})
+echo "git config commit.template ${_dirname}/commit.template.txt"
