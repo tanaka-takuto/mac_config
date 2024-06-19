@@ -32,3 +32,8 @@ brew install fzf
 ```
 brew install bitwarden-cli
 ```
+
+## fd(alternative command to find)
+```
+brew install fd
+```
