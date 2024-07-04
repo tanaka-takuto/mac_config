@@ -56,3 +56,8 @@ brew install dbeaver-community
 brew install jq
 brew install ynqa/tap/jnv
 ```
+
+## devtoys
+```
+brew install --cask devtoys
+```
