@@ -27,7 +27,9 @@ const { execSync } = require('child_process');
   const existingCommitMsg = commitMsg.split('recommend')[1].trim();
 
   // get git diff
-  const gitDiffString = execSync('git diff --cached -U10').toString();
+  const gitDiffFirst1000lines = execSync(
+    'git diff --cached -U10 | head -n 1000',
+  ).toString()
 
   // fetch new commit message from OpenAI API
   const messages = [
@@ -36,9 +38,9 @@ const { execSync } = require('child_process');
       role: 'user', content: `
   # Constraint
   - in english
-  # Git Diff
+  # Git Diff(The first 1000 lines only)
   \`\`\`
-  ${gitDiffString}
+  ${gitDiffFirst1000lines}
   \`\`\`
   # Current Commit Message
   \`\`\`
