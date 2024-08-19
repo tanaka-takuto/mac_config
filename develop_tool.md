@@ -61,3 +61,8 @@ brew install ynqa/tap/jnv
 ```
 brew install --cask devtoys
 ```
+
+## adb
+```
+brew install --cask android-platform-tools
+```
