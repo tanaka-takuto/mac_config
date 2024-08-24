@@ -37,3 +37,8 @@ brew install bitwarden-cli
 ```
 brew install fd
 ```
+
+### meetingbar
+```
+brew install meetingbar
+```
