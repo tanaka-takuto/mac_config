@@ -11,6 +11,16 @@ brew install visual-studio-code
 brew install warp
 ```
 
+## Ghostty(ターミナル)
+```
+brew install --cask ghostty
+```
+
+Ghosttyのconfigに下記を追加([doc](https://ghostty.org/docs/config))
+```
+config-file = ghostty.configへのパス
+```
+
 ## git
 ```
 brew install git
