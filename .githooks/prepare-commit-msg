@@ -1,46 +1,54 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 (async function () {
-
-  // init OpenAI API 
+  // init OpenAI API
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   if (!OPENAI_API_KEY) {
-    console.error('no OPENAI_API_KEY found in environment variables. Please set it before running the script.');
+    console.error(
+      "no OPENAI_API_KEY found in environment variables. Please set it before running the script."
+    );
     return;
   }
-  const MODEL = "gpt-4o-mini"
-  const API_URL = "https://api.openai.com/v1/chat/completions"
+  const MODEL = "gpt-4o-mini";
+  const API_URL = "https://api.openai.com/v1/chat/completions";
 
   // get commit message
   const commitMsgFileName = process.argv[2];
   const commitMsgFilePath = path.resolve(process.cwd(), commitMsgFileName);
-  const commitMsg = fs.readFileSync(commitMsgFilePath, 'utf8');
-  const isRecommend = commitMsg.includes('recommend');
+  const commitMsg = fs.readFileSync(commitMsgFilePath, "utf8");
+  const isRecommend = commitMsg.includes("recommend");
   if (!isRecommend) {
-    console.error('Please set the commit message to "recommend" to get the optimal commit message.');
+    console.error(
+      'Please set the commit message to "recommend" to get the optimal commit message.'
+    );
     return;
   }
-  const existingCommitMsg = commitMsg.split('recommend')[1].trim();
+  const existingCommitMsg = commitMsg.split("recommend")[1].trim();
 
   // get git diff
-  const gitDiffFirst1000lines = execSync(
-    'git diff --cached -U10 | head -n 1000',
-  ).toString()
+  const gitDiffFirst500lines = execSync(
+    "git diff --cached -U10 | head -n 500"
+  ).toString();
 
   // fetch new commit message from OpenAI API
   const messages = [
-    { role: 'system', content: 'You are an excellent system engineer. Please return the optimal commit message based on the git diff and the already set commit message. The output should only be the commit message.Do not use code blocks.' },
     {
-      role: 'user', content: `
+      role: "system",
+      content:
+        "You are an excellent system engineer. Please return the optimal commit message based on the git diff and the already set commit message. The output should only be the commit message.Do not use code blocks.",
+    },
+    {
+      role: "user",
+      content: `
   # Constraint
   - in english
   # Git Diff(The first 1000 lines only)
   \`\`\`
-  ${gitDiffFirst1000lines}
+  ${gitDiffFirst500lines}
   \`\`\`
   # Current Commit Message
   \`\`\`
@@ -65,21 +73,24 @@ const { execSync } = require('child_process');
   - Example: chore: update dependencies
   8. perf: Performance improvements
   - Example: perf: improve image loading time
-  ` }
-  ]
+  `,
+    },
+  ];
 
   const response = await fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
       model: MODEL,
-      messages: messages
-    })
+      messages: messages,
+    }),
   });
   const data = await response.json();
+
+  console.log(JSON.stringify(data));
 
   // write new commit message to file
   fs.writeFileSync(commitMsgFilePath, data.choices[0].message.content);
