@@ -76,3 +76,8 @@ brew install --cask devtoys
 ```
 brew install --cask android-platform-tools
 ```
+
+## xbar
+```
+brew install --cask xbar
+```
