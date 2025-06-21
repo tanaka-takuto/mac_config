@@ -42,3 +42,8 @@ brew install fd
 ```
 brew install meetingbar
 ```
+
+### tmux
+```
+brew install tmux
+```
