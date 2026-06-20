@@ -6,6 +6,7 @@
 ## ツール
 - [全般](common_tool.md)
 - [開発](develop_tool.md)
+- [Ghostty](ghostty.md)
 
 ## スクリプト
 - [開発用スクリプト](develop_script.md)
